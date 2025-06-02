@@ -5,11 +5,21 @@ export default function Home() {
 
   useEffect(() => {
     fetch("/api/today")
-      .then(res => res.json())
-      .then(setContent);
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(`Failed to fetch: ${res.status}`);
+    }
+    return res.json();
+  })
+  .then(setContent)
+  .catch(err => {
+    console.error(err);
+    setContent({ error: true });
+  });
   }, []);
 
   if (!content) return <p>Loading Bradbury’s daily curation...</p>;
+if (content.error) return <p>Something went wrong loading today’s curation.</p>;
 
   return (
     <main style={{ fontFamily: "serif", padding: "2rem", lineHeight: 1.6 }}>
