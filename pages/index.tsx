@@ -22,40 +22,46 @@ export default function Home() {
 if (content.error) return <p>Something went wrong loading today’s curation.</p>;
 
   return (
-    <main style={{ fontFamily: "serif", padding: "2rem", lineHeight: 1.6 }}>
-      <h1>Bradbury</h1>
+  <main style={{ fontFamily: "serif", padding: "2rem", lineHeight: 1.6 }}>
+    <h1>Bradbury</h1>
 
-      <section>
-        <h2>📝 Poem</h2>
-        <h3>{content.poem.title}</h3>
-        <p>{content.poem.lines.join(" ")}</p>
-      </section>
+    <section>
+      <h2>📝 Poem</h2>
+      <h3>{content?.poem?.title ?? "Untitled"}</h3>
+      <p>{content?.poem?.lines?.join(" ") ?? "No poem today."}</p>
+    </section>
 
-      <section>
-        <h2>📰 News</h2>
-        <p><strong>{content.news.title}</strong><br />{content.news.content}</p>
-      </section>
+    <section>
+      <h2>📰 News</h2>
+      <p>
+        <strong>{content?.news?.title ?? "No title"}</strong><br />
+        {content?.news?.content ?? "No news content available."}
+      </p>
+    </section>
 
-      <section>
-        <h2>🖼 Artwork</h2>
-        <p>{content.artwork.title}</p>
-        {content.artwork.image_id && (
-          <img
-            src={`https://www.artic.edu/iiif/2/${content.artwork.image_id}/full/843,/0/default.jpg`}
-            alt={content.artwork.title}
-            style={{ maxWidth: "100%" }}
-          />
-        )}
-      </section>
+    <section>
+      <h2>🖼 Artwork</h2>
+      <p>{content?.artwork?.title ?? "Untitled artwork"}</p>
+      {content?.artwork?.image_id && (
+        <img
+          src={`https://www.artic.edu/iiif/2/${content.artwork.image_id}/full/843,/0/default.jpg`}
+          alt={content.artwork.title ?? "Artwork"}
+          style={{ maxWidth: "100%" }}
+        />
+      )}
+    </section>
 
-      <section>
-        <h2>🎵 Song</h2>
-        <p>
+    <section>
+      <h2>🎵 Song</h2>
+      <p>
+        {content?.song?.link ? (
           <a href={content.song.link} target="_blank" rel="noreferrer">
-            {content.song.title} – {content.song.artist}
+            {content.song.title ?? "Untitled"} – {content.song.artist ?? "Unknown Artist"}
           </a>
-        </p>
-      </section>
-    </main>
-  );
-}
+        ) : (
+          "No song today."
+        )}
+      </p>
+    </section>
+  </main>
+);
